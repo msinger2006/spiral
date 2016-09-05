@@ -1,9 +1,12 @@
-// print spiral pattern based on user defined size, N
+// print spiral pattern based on user defined input size, N
 //
 // m a singer
-// sept 4, 2016
+// sept 5, 2016
 
 public class spiral {
+
+    // string array to hold pattern
+    private static String[][] pattern;
 
     public static void main(String[] args) {
 
@@ -29,102 +32,82 @@ public class spiral {
 	    System.exit(0);
 	}
 
-	String[][] pattern = new String[N][N];
-
-	// initialize stuff
+	// initialize pattern
+	pattern = new String[N][N];
 	for(int i = 0; i < N; i++) {
 	    for(int j = 0; j < N; j++) {
 		pattern[i][j] = " ";
 	    }
 	}
 
+	// initial row and col variables to start at upper-left corner
 	int row = 0;
 	int col = 0;
-
-	// first outer layer of spiral; seems to be special case,
-	// though could probably think harder to incorporate it
-	// into algorithm below
 
 	// left to right
 	for(int j = col; j < N; j++) {
 	    pattern[row][j] = "*";
 	}
+	// subtract one from max column and from N
 	col = N-1;
-	N -= 1;
+	stopCheck(--N);
 
-	// top to bottom
-	for(int i = row; i < N; i++) {
-	    pattern[i+1][col] = "*";
-	}
-	row = N-1+1;
-	N -= 1;
-
-	// right to left
-	for(int j = col-1; j > (col-1-N); j--) {
-	    pattern[row][j] = "*";
-	}
-	col = col-1-N+1;
-	N -= 1;
-
-	// bottom to top
-	for(int i = row-1; i > (row-1-N); i--) {
-	    pattern[i][col] = "*";
-	}
-	row = row-1-N+1;
-	N -= 1;
-
-	// interior of spiral
+	// make spiral
 	while(true) {
-
-	    // left to right
-	    for(int j = col; j < (N+col+1); j++) {
-		pattern[row][j] = "*";
-	    }
-	    col = (N+col+1)-1;
-	    N -= 1;
-	    if(N < 1) {
-		break;
-	    }
 
 	    // top to bottom
 	    for(int i = row; i < N+row+1; i++) {
 		pattern[i][col] = "*";
 	    }
+	    // subtract one from max row and from N
 	    row = (N+row+1)-1;
-	    N -= 1;
-	    if(N < 1) {
-		break;
-	    }
+	    stopCheck(--N);
 
 	    // right to left
 	    for(int j = col-1; j > (col-1-N); j--) {
 		pattern[row][j] = "*";
 	    }
+	    // add one to max column (since right to left) and
+	    // subtract one from N
 	    col = (col-1-N)+1;
-	    N -= 1;
-	    if(N < 1) {
-		break;
-	    }
+	    stopCheck(--N);
 
 	    // bottom to top
 	    for(int i = row-1; i > (row-1-N); i--) {
 		pattern[i][col] = "*";
 	    }
+	    // add one to max row (since bottom to top) and
+	    // subtract one from N
 	    row = (row-1-N)+1;
-	    N -= 1;
-	    if(N < 1) {
-		break;
-	    }
-	}
+	    stopCheck(--N);
 
-	// print final pattern
-	for(int i = 0; i < pattern.length; i++) {
-	    for(int j = 0; j < pattern.length; j++) {
-		System.out.print(pattern[i][j] + " ");
+	    // left to right
+	    for(int j = col; j < (N+col+1); j++) {
+		pattern[row][j] = "*";
 	    }
-	    System.out.println("");
+	    // subtract one from max column and from N
+	    col = (N+col+1)-1;
+	    stopCheck(--N);
+
 	}
 
     }
+
+    // check to see if the spiral is complete; if so, print it
+    // to standard out
+    private static void stopCheck(int N) {
+	if(N < 1) {
+	    // print final pattern
+	    for(int i = 0; i < pattern.length; i++) {
+		for(int j = 0; j < pattern.length; j++) {
+		    System.out.print(pattern[i][j] + " ");
+		}
+		System.out.println("");
+	    }
+	    // all done
+	    System.exit(1);
+	}
+    }
+
 }
 
