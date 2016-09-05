@@ -7,15 +7,29 @@ public class spiral {
 
     public static void main(String[] args) {
 
+	// ensure proper usage
 	if(args.length < 1) {
 	    System.err.println("usage: java spiral <int size>");
 	    System.exit(0);
 	}
 
-	int N = Integer.parseInt(args[0]);
-	int NN = N;
+	// size of spiral
+	int N  = 0;
+	try {
+	    N = Integer.parseInt(args[0]);
+	}
+	catch(NumberFormatException nfe) {
+	    System.err.println("size of sprial must be an integer >= 0");
+	    System.exit(0);
+	}
 
-	String[][] pattern = new String[NN][NN];
+	// make sure size >= 0
+	if(N < 0) {
+	    System.err.println("size must be >= 0");
+	    System.exit(0);
+	}
+
+	String[][] pattern = new String[N][N];
 
 	// initialize stuff
 	for(int i = 0; i < N; i++) {
@@ -104,16 +118,12 @@ public class spiral {
 	}
 
 	// print final pattern
-	for(int i = 0; i < NN; i++) {
-	    for(int j = 0; j < NN; j++) {
+	for(int i = 0; i < pattern.length; i++) {
+	    for(int j = 0; j < pattern.length; j++) {
 		System.out.print(pattern[i][j] + " ");
-		System.out.flush();
 	    }
 	    System.out.println("");
-	    System.out.flush();
 	}
-
-	System.out.flush();
 
     }
 }
